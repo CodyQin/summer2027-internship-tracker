@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Summer 2027 Internship Tracker · 2027 暑期美国实习追踪</title>
+<style>
+  :root{
+    --bg:#f4f6f8; --card:#ffffff; --ink:#111827; --muted:#6b7280; --line:#e5e7eb;
+    --blue:#1d4ed8;
+    --green-bg:#dcfce7; --green-fg:#15803d;
+    --orange-bg:#ffedd5; --orange-fg:#c2410c;
+    --yellow-bg:#fef9c3; --yellow-fg:#a16207;
+    --purple-bg:#e0e7ff; --purple-fg:#4338ca;
+    --red-bg:#fee2e2; --red-fg:#b91c1c;
+    --gray-bg:#e5e7eb; --gray-fg:#4b5563;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.55}
+  .wrap{max-width:1280px;margin:0 auto;padding:28px 20px 60px}
+  header h1{font-size:26px;margin:0 0 2px}
+  header .sub{font-size:15px;color:var(--muted);font-weight:500}
+  .meta{color:var(--muted);font-size:13px;margin:6px 0 14px}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 16px;min-width:104px}
+  .stat b{display:block;font-size:22px;line-height:1.2}
+  .stat span{color:var(--muted);font-size:12px}
+  .g b{color:var(--green-fg)} .o b{color:var(--orange-fg)} .y b{color:var(--yellow-fg)} .r b{color:var(--red-fg)}
+  section.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:20px}
+  section.card h2{margin:0 0 10px;font-size:17px}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .btn{display:inline-block;background:var(--blue);color:#fff !important;padding:4px 12px;border-radius:7px;font-weight:600;white-space:nowrap}
+  .btn:hover{text-decoration:none;filter:brightness(1.08)}
+  .btn2{display:inline-block;border:1px solid var(--line);color:#334155 !important;padding:4px 10px;border-radius:7px;white-space:nowrap}
+  ol.action{margin:0;padding-left:22px}
+  ol.action li{margin:8px 0}
+  .chip{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700;white-space:nowrap}
+  .st-open{background:var(--green-bg);color:var(--green-fg)}
+  .st-partial{background:var(--orange-bg);color:var(--orange-fg)}
+  .st-expected{background:var(--yellow-bg);color:var(--yellow-fg)}
+  .st-closed{background:var(--purple-bg);color:var(--purple-fg)}
+  .st-blocked{background:var(--red-bg);color:var(--red-fg)}
+  .st-noprogram{background:var(--gray-bg);color:var(--gray-fg)}
+  .dl{background:var(--red-bg);color:var(--red-fg);border-radius:6px;padding:1px 7px;font-size:12px;font-weight:700;white-space:nowrap}
+  .toolbar{position:sticky;top:0;z-index:10;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:0}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .fbtn{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 14px;cursor:pointer;font-size:13px;color:#334155}
+  .fbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  #q{border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-size:13px;min-width:200px;margin-left:auto}
+  .tblwrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:12px;margin-top:14px}
+  table{border-collapse:collapse;width:100%;min-width:1080px}
+  th{position:sticky;top:0;background:#f8fafc;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);padding:10px 12px;border-bottom:2px solid var(--line);white-space:nowrap}
+  td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:hover td{background:#f8fafc}
+  td.co{white-space:nowrap;font-weight:700}
+  td.co .tier{color:var(--muted);font-weight:400;font-size:11px;display:block}
+  .mut{color:var(--muted);font-size:12px}
+  .note{font-size:12px;color:#374151}
+  .dead li{margin:5px 0}
+  .gtag{font-size:10px;border-radius:4px;padding:1px 5px;font-weight:600;white-space:nowrap;margin-left:4px;vertical-align:1px}
+  .gt-ai{background:#ede9fe;color:#6d28d9}
+  .gt-sys{background:#f1f5f9;color:#475569}
+  .gt-quant{background:#fff1f2;color:#be123c}
+  .my{border:1px solid var(--line);border-radius:6px;padding:3px 6px;font-size:12px;background:#fff;max-width:110px}
+  footer{margin-top:26px;color:var(--muted);font-size:12px}
+  @media (max-width:720px){ #q{margin-left:0;flex:1} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>2027 暑期实习申请追踪</h1>
+  <div class="sub">Summer 2027 Internship Tracker · 109 companies · verified 2026-09-01</div>
+  <p class="meta">目标岗位:SWE / ML / AI Engineer Intern · 美国 · 含 F-1 签证注意事项 · 数据截至 <b>2026-09-01</b>,共 <b>109</b> 家公司,全部经一手来源核实(各公司 ATS 招聘看板 / 官方页面),非道听途说。量化板块默认隐藏。</p>
+  <div class="stats" id="stats"></div>
+</header>
+
+<section class="card">
+  <h2>🔥 投递优先级参考(截至 2026-09-01 · 滚动录取,先到先得)</h2>
+  <ol class="action">
+    <li><b>Google — SWE Intern, MS, Summer 2027</b>:<span class="dl">申请窗口 9/25 截止</span>(滚动审核、可能提前关)。<a href="https://www.google.com/about/careers/applications/jobs/results/94172495052972742" target="_blank">立即申请 →</a> 这是全表唯一硬截止日期。</li>
+    <li><b>Sierra — Intern, Agent Development (Summer 2027)</b>:8/31 刚发布,做生产级 AI Agent(React/TS/Go + evals + RAG),明确招 Dec 2027–Jun 2028 毕业 —— Agent/LLM 工程背景高度匹配。<a href="https://jobs.ashbyhq.com/sierra/34b31b67-268c-4270-b48f-72e59064c96e" target="_blank">立即申请 →</a></li>
+    <li><b>TikTok — 58+ 个 2027 Summer SWE 岗</b>:全公司最多投 2 个,精选 <b>AI Agent 方向</b>优先。<a href="https://lifeattiktok.com/search/7676276048527214901" target="_blank">看岗位 →</a></li>
+    <li><b>NVIDIA — 2027 实习池</b>:Software Engineering + <b>Deep Learning</b>(ML 方向首选)一次申请覆盖多团队。<a href="https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/NVIDIA-2027-Internships--Software-Engineering_JR2023495" target="_blank">SWE 岗 →</a> · <a href="https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/NVIDIA-2027-Internships--Deep-Learning_JR2023497-1" target="_blank">DL 岗 →</a></li>
+    <li><b>量化板块</b>:12 家均已开放、滚动录取、先到先得——默认隐藏,点「📈 量化系统」筛选可见,按需取用。</li>
+    <li><b>其余已开放</b>:Roblox · Notion($61/hr)· AMD(Masters)· Waymo(MS)· Nuro · Applied Intuition · Physical Intelligence · Salesforce · Tesla(投前确认签证)· ByteDance · Databricks/Figma(Winter 版,视情况)。</li>
+    <li><b>Microsoft</b>:官方门户反爬,镜像显示 CoreAI 等实习已上线 —— 手动到 <a href="https://careers.microsoft.com/v2/global/en/search.html?q=software%20engineer%20intern" target="_blank">careers.microsoft.com</a> 搜 "software engineer intern" 确认后投。</li>
+    <li><b>第二轮新增 · 已开放(9/1 核实)</b>:<a href="https://careers.tencent.com/en-us/search.html?keyword=intern" target="_blank">Tencent America</a>(LA 游戏引擎岗 + Palo Alto 混元多模态,常年滚动)· <a href="https://micron.wd1.myworkdayjobs.com/External/job/Austin-TX/Intern---AI-Systems-and-Infrastructure-Engineering_JR109990" target="_blank">Micron AI Systems</a>(Austin,8/31 刚挂)· <a href="https://epicgames.com/site/en-US/careers" target="_blank">Epic</a>(滚动,Cary NC)· <a href="https://modal.com/careers" target="_blank">Modal</a>(偏 PhD 可冲)· <a href="https://apply.workable.com/huggingface/j/0BD8C06DB3/apply" target="_blank">Hugging Face Wild Card</a>。</li>
+  </ol>
+</section>
+
+<section class="card">
+  <h2>⏰ 关键时间点</h2>
+  <ul class="dead">
+    <li><b>2026-09-25</b> — Google SWE Intern(MS/BS)申请窗口截止</li>
+    <li><b>2026-09</b> — Airbnb / Snowflake / Qualcomm / Robinhood(9 月中)/ Uber / Workday 预计开放;Intuit 可能重开</li>
+    <li><b>2026-10</b> — Netflix(去年 10/1–10/31 整月窗口)/ LinkedIn / Zoox / Broadcom / 大部分 AI 创业公司</li>
+    <li><b>2026-11-27</b> — Google DeepMind Student Researcher(BS/MS)Fall 2026 批次截止</li>
+    <li><b>2026-12 前</b> — D.E. Shaw 官网建议的投递时间点</li>
+    <li><b>2027-02</b> — xAI 放岗(去年节奏:2 月放、4 月初关)</li>
+  </ul>
+</section>
+
+<div class="toolbar">
+  <div class="filters">
+    <button class="fbtn on" data-f="all">全部</button>
+    <button class="fbtn" data-f="open">🟢 立即投</button>
+    <button class="fbtn" data-f="partial">🟠 部分开放</button>
+    <button class="fbtn" data-f="expected">🟡 等待开放</button>
+    <button class="fbtn" data-f="cat-bigtech">大厂</button>
+    <button class="fbtn" data-f="cat-ai">AI / 软件</button>
+    <button class="fbtn" data-f="cat-quant">量化</button>
+    <button class="fbtn" data-f="cat-auto">芯片 / 自动驾驶</button>
+    <button class="fbtn" data-f="cat-game">🎮 游戏娱乐</button>
+    <button class="fbtn" data-f="cat-consumer">消费 / 金融</button>
+    <button class="fbtn" data-f="g-ai">🤖 AI 强匹配</button>
+    <button class="fbtn" data-f="g-sys">⚙️ 通用 SWE</button>
+    <button class="fbtn" data-f="g-quant">📈 量化系统</button>
+    <button class="fbtn on" id="hideq" title="已决定不投量化;点击临时显示/再隐藏">🙈 隐藏量化(已弃投)</button>
+    <button class="fbtn" id="exp" title="把勾选的进度导出成 JSON 文件(给 Claude 看或备份)">📤 导出进度</button>
+    <button class="fbtn" id="imp" title="从之前导出的 JSON 恢复进度">📥 导入进度</button>
+    <input type="file" id="impf" accept="application/json,.json" hidden>
+    <input id="q" type="search" placeholder="搜索公司 / 岗位 / 城市…">
+  </div>
+</div>
+
+<div class="tblwrap">
+<table id="tbl">
+  <thead><tr>
+    <th>公司</th><th>状态</th><th>2027 岗位(原题)</th><th>直达申请</th><th>官网 / 看板</th><th>时间线</th><th>备注(F-1 / 匹配度)</th><th>我的进度</th>
+  </tr></thead>
+  <tbody id="tb"></tbody>
+</table>
+</div>
+
+<script>
+const D = [
+// ---------- T1 大厂核心 ----------
+{n:"Google",g:"ai",t:"T1 · 大厂核心",c:"bigtech",s:"open",r:"Software Engineering Intern, <b>MS</b>, Summer 2027 · 30+ 美国地点(另有 BS / PhD 版)",a:"https://www.google.com/about/careers/applications/jobs/results/94172495052972742",h:"https://www.google.com/about/careers/applications/jobs/results/",w:"8/30–31 上线 · rolling",d:"9/25 截止",x:"官方确认已开放;DeepMind 团队同通道招聘;越早越好"},
+{n:"NVIDIA",g:"ai",t:"T1 · 大厂核心",c:"bigtech",s:"open",r:"2027 Internships:Software Engineering / Systems SW / <b>Deep Learning</b> · Santa Clara · $20–71/hr",a:"https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/NVIDIA-2027-Internships--Software-Engineering_JR2023495",h:"https://jobs.nvidia.com",w:"8/18 上线 · ongoing",x:"Deep Learning 岗(JR2023497)最匹配;另有 30 个 2027 req:NVIDIA Research PhD 系列(GenAI/LLM/CV/机器人)+ AV&Robotics(JR2023496);池式岗位一申覆盖多团队"},
+{n:"Microsoft",g:"ai",t:"T1 · 大厂核心",c:"bigtech",s:"partial",r:"SWE: Intern Opportunities(含 CoreAI 等)· 镜像显示 Summer 2027 已上线,官方门户反爬需手动确认",a:"https://careers.microsoft.com/v2/global/en/search.html?q=software%20engineer%20intern",h:"https://careers.microsoft.com/students/",w:"镜像:8 月中旬已开 · rolling",x:"认准 JD 写 Summer 2027;忽略已关闭的 CoreAI Research Intern(2026 周期残留)"},
+{n:"Amazon",g:"sys",t:"T1 · 大厂核心",c:"bigtech",s:"expected",r:"—(美国岗未上;2027 岗目前只在都柏林 / 印度)",a:"https://www.amazon.jobs/en/teams/internships-for-students",h:"https://www.amazon.jobs/en/teams/internships-for-students",w:"预计 8–10 月",x:"SDE 实习量最大;开放后尽快投;Science 通道(应用科学)美国岗预计 9–11 月(去年本科/MS 版 9/2 放);Annapurna 2027 SWE(Cupertino)已上"},
+{n:"Meta",g:"sys",t:"T1 · 大厂核心",c:"bigtech",s:"expected",r:"—",a:"https://www.meta.com/careers/",h:"https://www.meta.com/careers/",w:"预计 8–10 月 · 开放后关闭很快",x:"官方让学生“留意 Summer 2027 机会”,每周查;FAIR Research Scientist Intern(PhD)系列滚动在挂(MS 属长 shot);SWE 去年 9/16 放;AI Residency 已停(2023 届后)"},
+{n:"Apple",g:"sys",t:"T1 · 大厂核心",c:"bigtech",s:"partial",r:"Applied Data Solutions Program Internships – Summer 2027(Austin / Cupertino,数据方向)",a:"https://jobs.apple.com/en-us/details/200673612-0157/applied-data-solutions-program-internships-summer-2027?team=STDNT",h:"https://jobs.apple.com/en-us/search?team=internships-STDNT-INTRN",w:"8/27 上线 · rolling",x:"核心 SWE/ML 实习预计 8–10 月分批上;实习总搜索页已收藏在官网列"},
+{n:"Tesla",g:"sys",t:"T1 · 大厂核心",c:"bigtech",s:"open",r:"Next Gen Internship, Software Engineer, Vehicle Software (Summer 2027) · Palo Alto · $42–58/hr",a:"https://www.tesla.com/careers/search/job/281097",h:"https://www.tesla.com/careers",w:"8/27 上线 · rolling",x:"⚠️ Tesla 历史上基本不为实习办签证 —— 投前在 JD/申请表确认"},
+{n:"Salesforce",g:"sys",t:"T1 · 大厂核心",c:"bigtech",s:"open",r:"Summer 2027 Intern – Software Engineer(Futureforce)· $43–52/hr",a:"https://salesforce.wd12.myworkdayjobs.com/en-US/External_Career_Site/job/Summer-2027-Intern---Software-Engineer_JR340771-1",h:"https://salesforce.wd12.myworkdayjobs.com/en-US/External_Career_Site",w:"live · 无截止",x:"⚠️ 12 个月内最多投 3 个岗位;同名 JR337715 是印度岗勿投;JD 强调 AI 辅助开发工具"},
+{n:"Oracle",g:"sys",t:"T1 · 大厂核心",c:"bigtech",s:"expected",r:"—",a:"https://www.oracle.com/careers/students-grads/internships/",h:"https://careers.oracle.com/en/sites/jobsearch/jobs?keyword=intern&location=United+States&locationId=300000000149325&mode=location",w:"预计 8 月底–9 月初",x:"⚠️ 去年 Oracle Health 实习岗明确写不 sponsor —— 每个 JD 都要核"},
+{n:"Adobe",g:"sys",t:"T1 · 大厂核心",c:"bigtech",s:"expected",r:"—(现只有 Sales Academy 兴趣表,非技术)",a:"https://careers.adobe.com/us/en/",h:"https://careers.adobe.com/us/en/",w:"9 月初起滚动;去年优先窗口至 10 月初",x:"设职位提醒"},
+// ---------- T2 大厂二梯队 ----------
+{n:"TikTok",g:"ai",t:"T2 · 大厂二梯队",c:"consumer",s:"open",r:"<b>58+ 个</b> SWE Intern – 2027 Summer(AI Agent / Search / 广告 / ML Infra / SRE…)· San Jose & Seattle · $45–60/hr + 房补",a:"https://lifeattiktok.com/search/7676276048527214901",h:"https://lifeattiktok.com",w:"7/29 起分波上线 · rolling",x:"⚠️ 全公司最多投 2 个 —— 首选 AI Agent 方向(Agent/LLM 工程背景高度匹配)"},
+{n:"ByteDance",g:"sys",t:"T2 · 大厂二梯队",c:"consumer",s:"open",r:"SWE Intern (Global Payment) – 2027 Summer · San Jose · $45/hr;另有 Seed Student Researcher 常设研究岗",a:"https://joinbytedance.com/search/7668650945276168453",h:"https://jobs.bytedance.com",w:"8/17 · rolling",x:"与国际版 TikTok 招聘线分开"},
+{n:"Roblox",g:"sys",t:"T2 · 大厂二梯队",c:"consumer",s:"open",r:"[Summer 2027] Software Engineer Intern · San Mateo · ~$64/hr · 团队含 Foundational AI",a:"https://job-boards.greenhouse.io/roblox/jobs/8072713",h:"https://careers.roblox.com/jobs",w:"8/5 上线 · rolling 无截止",x:"明确招本科+研究生;仅此一个 SWE req,宜早投"},
+{n:"Netflix",g:"sys",t:"T2 · 大厂二梯队",c:"consumer",s:"expected",r:"—(现只有 PhD Winter 2027 ML 岗)",a:"https://jobs.netflix.com/careers/internships",h:"https://jobs.netflix.com/careers/internships",w:"预计 10 月;去年窗口 10/1–10/31 整月",x:"硬窗口,错过即无;官方称 8 月中–9 月初起滚动挂岗"},
+{n:"LinkedIn",g:"sys",t:"T2 · 大厂二梯队",c:"bigtech",s:"expected",r:"—",a:"https://careers.linkedin.com/pathways-programs/internships",h:"https://careers.linkedin.com/pathways-programs/internships",w:"预计 9 月底–10 月初;去年开 8 周即关",x:"去年有 Masters 向 Systems & Infrastructure 实习岗,留意"},
+{n:"Uber",g:"sys",t:"T2 · 大厂二梯队",c:"consumer",s:"expected",r:"—",a:"https://jobs.uber.com",h:"https://jobs.uber.com",w:"预计 9 月(2026 周期 9 月底已上)",x:"现唯一 2027 req 是本科向 Career Prep 项目,不适合 MS"},
+{n:"Airbnb",g:"sys",t:"T2 · 大厂二梯队",c:"consumer",s:"expected",r:"—(看板 170 岗 0 实习)",a:"https://www.airbnb.com/careers",h:"https://www.airbnb.com/careers",w:"预计 9 月初;去年优先截止 10 月中",x:"去年口径:F-1 CPT 可投、不支持 J-1"},
+{n:"Intuit",g:"sys",t:"T2 · 大厂二梯队",c:"bigtech",s:"closed",r:"Summer 2027: SWE Intern – Full Stack(MV/Atlanta/NY/SD/Charlotte)— 8 月中开放、<b>8/31 前已撤下</b>",a:"",h:"https://jobs.intuit.com/interns-new-college-grads",w:"等重开(历史上 9–10 月有重开)",x:"教训:开放到关闭仅约 2 周 —— 这周期节奏极快,开放即投;设提醒"},
+{n:"ServiceNow",g:"sys",t:"T2 · 大厂二梯队",c:"bigtech",s:"expected",r:"—",a:"https://careers.servicenow.com/early-careers/",h:"https://careers.servicenow.com/jobs/?search=&jobPostingType=Intern",w:"比预期晚(原预计 8 月初)",x:"每周查 Intern 筛选页;去年 Santa Clara/San Diego ~$55/hr"},
+{n:"Atlassian",g:"sys",t:"T2 · 大厂二梯队",c:"bigtech",s:"expected",r:"—",a:"https://www.atlassian.com/company/careers/all-jobs?team=Interns%2CGraduates",h:"https://www.atlassian.com/company/careers/earlycareers",w:"官方:美国 9 月–次年 3 月滚动",x:"倒数第二学年(研究生含)可投"},
+{n:"Workday",g:"sys",t:"T2 · 大厂二梯队",c:"bigtech",s:"expected",r:"—(Early Career 站目前仅 1 岗)",a:"https://workday.wd5.myworkdayjobs.com/Workday_Early_Career",h:"https://www.workday.com/en-us/company/careers/early-career.html",w:"预计随时(去年 8 月开)",x:"12 周;Pleasanton / Boulder / Atlanta / McLean / San Jose"},
+{n:"Cisco",g:"sys",t:"T2 · 大厂二梯队",c:"bigtech",s:"expected",r:"—",a:"https://careers.cisco.com/global/en/internships-and-co-ops",h:"https://careers.cisco.com/global/en/search-results?category=Internships%2C%20Apprenticeships%2C%20and%20Co-Ops",w:"预计 8–10 月;去年多数 11 月中前满",x:"注意:网上流传的 “Network SDE Intern 2027 Summer (San Jose)” 其实是 ByteDance 的岗"},
+// ---------- T3 AI Labs ----------
+{n:"OpenAI",g:"ai",t:"T3 · AI Labs",c:"ai",s:"expected",r:"—(去年:SWE Applied / Research / Systems / Safety 实习轨)",a:"https://openai.com/careers/search?query=intern",h:"https://openai.com/careers/search?query=intern",w:"预计 9–11 月 · rolling 先到先得",x:"MS 适合 SWE Applied 轨(~$60/hr);Residency 是毕业后(2028)选项且明确 sponsor"},
+{n:"Google DeepMind",g:"ai",t:"T3 · AI Labs",c:"ai",s:"open",r:"① Google SWE Intern(见 T1,9/25 截止)② <b>Student Researcher, BS/MS</b> — Fall 2026 批次在招;Summer 2027 批次预计年底",a:"https://www.google.com/about/careers/applications/jobs/results/132362676918461126-student-researcher-bsms-fall-2026",h:"https://deepmind.google/student-researcher-program/",w:"SR Fall 2026:窗口至 11/27",d:"SR 11/27 截止",x:"一次申请覆盖 DeepMind / Google Research / Cloud AI;研究轨对 MS 友好"},
+{n:"xAI",g:"ai",t:"T3 · AI Labs",c:"ai",s:"expected",r:"—(253 岗 0 实习)",a:"https://job-boards.greenhouse.io/xai",h:"https://x.ai/careers",w:"预计 2027 年 2 月放、4 月初关(去年节奏)",x:"超晚周期,先不用盯"},
+{n:"Scale AI",g:"ai",t:"T3 · AI Labs",c:"ai",s:"expected",r:"—(215 岗 0 实习)",a:"https://job-boards.greenhouse.io/scaleai",h:"https://scale.com/careers",w:"预计 8–10 月;去年 9/30 截止",x:"去年 SWE ~$60/hr + $7k 房补;需美国工作许可"},
+{n:"Perplexity",g:"ai",t:"T3 · AI Labs",c:"ai",s:"expected",r:"—(现有实习岗只在贝尔格莱德 / 伦敦)",a:"https://jobs.ashbyhq.com/perplexity",h:"https://www.perplexity.ai/hub/careers",w:"预计 9 月起 · 每周查",x:"SF Research Residency(~$220k 年化)开放时值得关注,不要求 PhD"},
+{n:"Cohere",g:"ai",t:"T3 · AI Labs",c:"ai",s:"open",r:"SWE / Research / ML Intern(<b>Winter 2027</b>,1–4 月,remote 可在美国)",a:"https://jobs.ashbyhq.com/cohere/8c035d3d-081d-4c8a-914a-72f4efaad254",h:"https://jobs.ashbyhq.com/cohere",w:"5 月发布 · rolling",x:"⚠️ Winter 学期与你的春季课程冲突,谨慎;Summer 2027 版预计后续,每周查"},
+{n:"Figure AI",g:"ai",t:"T3 · AI Labs",c:"ai",s:"expected",r:"—(现只有 Fall 2026 硬件类实习,San Jose)",a:"https://job-boards.greenhouse.io/figureai",h:"https://www.figure.ai/careers",w:"预计 9–11 月",x:"AI / Special Projects 实习轨要求 MS/PhD;$35–45/hr;San Jose 每周 5 天到岗"},
+{n:"Physical Intelligence",g:"ai",t:"T3 · AI Labs",c:"ai",s:"open",r:"<b>Research Internships</b>(常设滚动)· SF Mission 区 · 12–16 周(典型 5–8 月)",a:"https://jobs.ashbyhq.com/PhysicalIntelligence/f020ff1a-4b4c-4415-8434-2da5010a7076",h:"https://www.pi.website/join-us",w:"rolling;申请高峰 10–12 月 —— 现在投竞争少",x:"MS 可投 applied research / ML infra / robotics SWE 轨道(研究轨偏好 PhD)"},
+{n:"Anthropic",g:"ai",t:"T3 · AI Labs",c:"ai",s:"noprogram",r:"官方 FAQ 原文:“We don’t currently offer internships”",a:"",h:"https://www.anthropic.com/careers",w:"—",x:"替代通道 Fellows Program:1 月入职 4 个月全职,需已有工作许可(不 sponsor)且与春季学期冲突 —— 实习角度划掉"},
+{n:"Mistral AI(美国)",g:"ai",t:"T3 · AI Labs",c:"ai",s:"noprogram",r:"实习岗只在巴黎(Applied AI / Applied Scientist)",a:"",h:"https://mistral.ai/careers",w:"—",x:"美国办公室(Palo Alto / SF / NY)无实习"},
+{n:"Safe Superintelligence (SSI)",g:"ai",t:"T3 · AI Labs",c:"ai",s:"noprogram",r:"无公开招聘看板(0 岗)",a:"",h:"https://ssi.inc/",w:"—",x:"~50 人团队,仅主动挖人"},
+{n:"Thinking Machines Lab",g:"ai",t:"T3 · AI Labs",c:"ai",s:"noprogram",r:"38 个岗全部全职,无实习 / 驻留",a:"",h:"https://jobs.ashbyhq.com/ThinkingMachines",w:"—",x:"无公开项目"},
+// ---------- T4 AI / 软件创业 ----------
+{n:"Sierra",g:"ai",t:"T4 · AI 创业",c:"ai",s:"open",r:"<b>Intern, Agent Development (Summer 2027)</b> · SF · 生产级客户 AI Agent(React/TS/Go + evals + RAG)",a:"https://jobs.ashbyhq.com/sierra/34b31b67-268c-4270-b48f-72e59064c96e",h:"https://sierra.ai/careers",w:"8/31(调研当天)发布 · rolling",x:"⭐ 明确招 Dec 2027–Jun 2028 毕业;Agent/LLM 工程背景高度匹配,发布初期投递竞争小"},
+{n:"Notion",g:"sys",t:"T4 · AI 创业",c:"ai",s:"open",r:"SWE Intern (Summer 2027) · SF/NYC · <b>MS $61/hr</b>(BS $57/hr)",a:"https://jobs.ashbyhq.com/notion/3fba1c39-c5cb-47d7-9ad2-1cec4d7e9d0c",h:"https://www.notion.com/careers",w:"8/14 发布 · rolling",x:"项目期 5/17–8/6/2027;毕业 ≤ Summer 2028 即符合;另有 Winter 版"},
+{n:"Databricks",g:"ai",t:"T4 · AI 创业",c:"ai",s:"partial",r:"<b>Winter 2027</b> SWE Intern(1–4 月,Bellevue/MV/SF)现可投;Summer PM 已上;<b>Summer SWE 未上</b>",a:"https://www.databricks.com/company/careers/open-positions/job?gh_jid=8732364004",h:"https://www.databricks.com/company/careers/university-recruiting",w:"Winter 岗 8/21 更新;Summer SWE 预计 9–10 月",x:"Winter 与春季学期冲突慎选;Summer SWE 每周查;毕业 fall 2027 / spring 2028 符合"},
+{n:"Figma",g:"sys",t:"T4 · AI 创业",c:"ai",s:"partial",r:"SWE Intern (<b>Winter 2027</b>) · SF/NY · 1/4/2027 入职",a:"https://boards.greenhouse.io/figma/jobs/6131089004?gh_jid=6131089004",h:"https://www.figma.com/careers",w:"8/24 更新;Summer 版预计后续",x:"去年有 Summer SWE 实习班(~$51/hr)—— Summer 2027 版每周查"},
+{n:"Snowflake",g:"ai",t:"T4 · AI 创业",c:"ai",s:"expected",r:"—(现挂实习均为 EMEA 2026 残留)",a:"https://careers.snowflake.com/us/en/search-results",h:"https://careers.snowflake.com/us/en/university",w:"预计 9–10 月;去年 10 月底基本招满",x:"9 月前两周投最佳;先加 Talent Community;去年有 MS/PhD AI/ML 实习(~$55/hr)"},
+{n:"Glean",g:"ai",t:"T4 · AI 创业",c:"ai",s:"expected",r:"—(109 岗 0 实习)",a:"https://job-boards.greenhouse.io/gleanwork",h:"https://www.glean.com/careers",w:"去年 8 月开;今年未上,每周查",x:"去年 ~$57–69/hr"},
+{n:"Vercel",g:"sys",t:"T4 · AI 创业",c:"ai",s:"expected",r:"—(89 岗 0 实习)",a:"https://job-boards.greenhouse.io/vercel",h:"https://vercel.com/careers",w:"预计 9–10 月",x:"12 周 ~$70/hr,remote / SF / NY;去年也有冬季班"},
+{n:"Replit",g:"sys",t:"T4 · AI 创业",c:"ai",s:"expected",r:"—",a:"https://jobs.ashbyhq.com/replit",h:"https://replit.com/careers",w:"预计 9–10 月",x:"去年 Foster City,每周一二三到岗"},
+{n:"Cursor (Anysphere)",g:"ai",t:"T4 · AI 创业",c:"ai",s:"noprogram",r:"118 个开放岗位,0 实习",a:"",h:"https://cursor.com/careers",w:"—",x:"无正式实习项目(官方指南确认)"},
+{n:"Runway",g:"ai",t:"T4 · AI 创业",c:"ai",s:"noprogram",r:"44 个岗位,0 实习",a:"",h:"https://runwayml.com/careers",w:"—",x:"毕业后可看 Acceleration Program(3 个月集训起)"},
+{n:"Midjourney",g:"ai",t:"T4 · AI 创业",c:"ai",s:"noprogram",r:"~60 人自筹资金研究实验室",a:"",h:"https://midjourney.com/careers",w:"—",x:"无实习;只能主动联系"},
+// ---------- T5 消费 / 金融 / 国防 ----------
+{n:"Robinhood",g:"sys",t:"T5 · 消费金融",c:"consumer",s:"expected",r:"—(去年:SWE Intern,Menlo Park,~$48/hr + $6k/月房补)",a:"https://job-boards.greenhouse.io/robinhood",h:"https://robinhood.com/us/en/careers/early-talent/",w:"官方:9 月中旬挂岗 · rolling,年内基本招完",x:"✅ 官方明确 sponsor 签证;新加坡 2027 市场岗已上 = 周期已启动"},
+{n:"Stripe",g:"sys",t:"T5 · 消费金融",c:"consumer",s:"expected",r:"—(美国未上;伦敦/多伦多/都柏林等 5 地已上)",a:"https://stripe.com/jobs/search?query=intern",h:"https://stripe.com/careers/emerging-talent",w:"9 月每周查",x:"5 个 2028 新毕业生岗已挂 —— 明年正式求职时参考"},
+{n:"DoorDash",g:"sys",t:"T5 · 消费金融",c:"consumer",s:"expected",r:"—(472 岗 0 实习)",a:"https://job-boards.greenhouse.io/doordashusa",h:"https://careersatdoordash.com",w:"预计 8–9 月",x:"✅ 去年 JD 明确:F-1 用 CPT 可投(不支持 J-1);去年 $107–158k 年化折算"},
+{n:"Instacart",g:"sys",t:"T5 · 消费金融",c:"consumer",s:"expected",r:"—(117 岗 0 实习)",a:"https://www.instacart.careers/current-openings",h:"https://www.instacart.careers/current-openings",w:"预计 8–9 月开、11 月中关",x:"历史上不少实习岗在加拿大"},
+{n:"Pinterest",g:"sys",t:"T5 · 消费金融",c:"consumer",s:"expected",r:"—(University 部门 0 岗)",a:"https://www.pinterestcareers.com/early-career/university-recruiting/",h:"https://www.pinterestcareers.com/jobs/?team=University",w:"官方:秋季开,“通常 8 或 9 月”",x:"官网 “now open” 的 ML 链接已失效 —— 以实际看板为准"},
+{n:"Snap",g:"ai",t:"T5 · 消费金融",c:"consumer",s:"partial",r:"Research Intern, User Modeling & Personalization(未标学期)· Bellevue / LA",a:"https://wd1.myworkdaysite.com/recruiting/snapchat/snap/job/Bellevue-Washington/Research-Intern--User-Modeling-and-Personalization_R0046464",h:"https://careers.snap.com/jobs",w:"该岗 8/14 挂出 · rolling",x:"LA 办公室;SWE Summer 实习未上(去年 ~$51.9/hr + $2.5k/月房补)"},
+{n:"Reddit",g:"sys",t:"T5 · 消费金融",c:"consumer",s:"expected",r:"—(156 岗 0 实习)",a:"https://job-boards.greenhouse.io/reddit",h:"https://www.redditinc.com/careers",w:"预计 8–10 月",x:"去年 SF ~$68/hr"},
+{n:"Discord",g:"sys",t:"T5 · 消费金融",c:"consumer",s:"expected",r:"—(51 岗 0 实习)",a:"https://job-boards.greenhouse.io/discord",h:"https://discord.com/careers",w:"预计 9 月起",x:"信息较少,每周查看板"},
+{n:"Palantir",g:"sys",t:"T5 · 消费金融",c:"consumer",s:"partial",r:"Software Engineer, Internship(商业线;≈$10.5k/月)常年开放(PA/NY/Denver/Seattle/DC)",a:"https://jobs.lever.co/palantir/e27af7ab-41fc-40c9-b31d-02c6cb1c505c",h:"https://www.palantir.com/careers/students/",w:"evergreen · rolling",x:"⚠️ JD 要求“2028 年毕业”——你 Dec 2027 毕业可能不符,投前问 recruiter;Defense/USG 版需 clearance(≈美国公民),勿投"},
+{n:"SpaceX",g:"sys",t:"T5 · 消费金融",c:"consumer",s:"blocked",r:"Summer 2027 SWE Internship/Co-op 已开放(共 12 个 2027 实习岗;Hawthorne 等地)",a:"",h:"https://boards.greenhouse.io/spacex",w:"8/3 更新 · rolling",x:"🔴 基本资格明确仅限 US Person(公民/绿卡/难民/庇护)—— F-1 法律上不可投"},
+{n:"Anduril",g:"sys",t:"T5 · 消费金融",c:"consumer",s:"blocked",r:"2027 Software Engineer Intern(12 周,$40–55/hr,Costa Mesa/Irvine 等)",a:"",h:"https://boards.greenhouse.io/andurilindustries/jobs/5148079007",w:"8/24 更新;8 月起审简历",x:"🔴 明确要求 US Person(出口管制),申请需宣誓身份 —— F-1 不可投"},
+// ---------- T6 量化 ----------
+{n:"Jane Street",g:"quant",t:"T6 · 量化",c:"quant",s:"open",r:"Software Engineer Internship (May–Aug) · NY · ≈$300k 年化折算",a:"https://www.janestreet.com/join-jane-street/position/8599644002/",h:"https://www.janestreet.com/join-jane-street/internships/",w:"8/27 更新 · rolling(7 月即开)",x:"OCaml 为主;面试=算法/函数式思维,官网有真题可练;国际学生友好"},
+{n:"Citadel",g:"quant",t:"T6 · 量化",c:"quant",s:"open",r:"Software Engineer – Intern (US) · NY/迈阿密/格林尼治/休斯顿 · $4.5–5.8k/周 + 签约/住房/差旅补贴",a:"https://www.citadel.com/careers/details/software-engineer-intern-us/",h:"https://www.citadel.com/careers/open-opportunities/students/internships/",w:"9/1 更新 · rolling",x:"申请含 150–300 字短文 + 选 2 门面试语言(C++/Python/Java/JS/TS);明确问 sponsor(有)"},
+{n:"Citadel Securities",g:"quant",t:"T6 · 量化",c:"quant",s:"open",r:"Software Engineer – Intern (US) · NY/迈阿密",a:"https://www.citadelsecurities.com/careers/details/software-engineer-intern-us/",h:"https://www.citadelsecurities.com/careers/students/internships/",w:"9/1 更新 · rolling",x:"与 Citadel 分开投,各算一次机会"},
+{n:"Two Sigma",g:"ai",t:"T6 · 量化",c:"quant",s:"partial",r:"已挂:Quantitative Researcher / AI Research Scientist Intern [2027 Summer](NY);<b>SWE Intern 未上</b>",a:"https://careers.twosigma.com/careers/OpenRoles?experienceLevels=Internship",h:"https://www.twosigma.com/careers/internships/",w:"官宣“2027 实习已开放”;SWE 往年秋末上",x:"每周查 OpenRoles 筛选页"},
+{n:"Hudson River Trading",g:"quant",t:"T6 · 量化",c:"quant",s:"open",r:"<b>Software Engineering Internship (C++ or Python) – Summer 2027</b> · NY/Chicago/Austin",a:"https://www.hudsonrivertrading.com/careers/job/?gh_jid=8052083",h:"https://www.hudsonrivertrading.com/careers/",w:"7 月下旬上线 · rolling",x:"C++/系统能力是明确加分项;另有 Algo Dev / Hardware 实习岗"},
+{n:"IMC Trading",g:"quant",t:"T6 · 量化",c:"quant",s:"open",r:"Software Engineer Intern – Summer 2027 · Chicago(另有 Performance / Hardware / QR / QT)",a:"https://job-boards.eu.greenhouse.io/imc/jobs/4823924101",h:"https://careers.imc.com/us/en/student-opportunities",w:"8/26 更新 · rolling",x:"美国技术实习均在芝加哥"},
+{n:"Optiver",g:"quant",t:"T6 · 量化",c:"quant",s:"open",r:"Software Engineer Intern (Summer 2027) · Chicago / Austin · $80k 年化折算 + 机票/住房/交通",a:"https://www.optiver.com/join-us/jobs/technology/chicago/software-engineer-intern-summer-2027-chicago/",h:"https://www.optiver.com/working-at-optiver/career-opportunities/",w:"rolling · 先到先得",x:"明确招 Dec 2027–Jun 2028 毕业(正匹配);⚠️ 8 个月冷冻期 —— 近期参加过其评测/面试则不能投"},
+{n:"SIG",g:"quant",t:"T6 · 量化",c:"quant",s:"open",r:"Trading System Engineering / Quantitative Strategy Developer Internship: Summer 2027 · 费城地区 · 2027/6 入职",a:"https://careers.sig.com/intern-co-op-technology/jobs/10837",h:"https://careers.sig.com/intern-openings",w:"live · 未标截止",x:"技术面考 C++/系统;另有 Quant Trader 实习(芝加哥/NY)"},
+{n:"D.E. Shaw",g:"quant",t:"T6 · 量化",c:"quant",s:"open",r:"Software Developer Intern / Systems Engineering Intern (Summer 2027) · NY",a:"https://www.deshaw.com/careers/internships",h:"https://www.deshaw.com/careers/internships",w:"rolling;官网建议上一个日历年 12 月前(即 2026 年内)投",d:"建议 12 月前",x:"另有 Quantitative Analyst / Prop Trading 实习"},
+{n:"DRW",g:"quant",t:"T6 · 量化",c:"quant",s:"open",r:"Software Developer Intern · Chicago · 10 周 · ≈$225k 年化折算 + 住房",a:"https://www.drw.com/work-at-drw/listings/software-developer-intern-3467328",h:"https://www.drw.com/work-at-drw/category/campus",w:"8/19 更新 · rolling",x:"明确招 Dec 2027–Jun 2028 毕业;考 TCP/IP、多线程、实时 C++ —— 低层准备重点"},
+{n:"Akuna Capital",g:"quant",t:"T6 · 量化",c:"quant",s:"open",r:"SWE Intern – Summer 2027 ×5 个方向(C++ / Python / C# 桌面 / 全栈 / 平台)· Chicago",a:"https://www.akunacapital.com/careers/job/8018847/?gh_jid=8018847",h:"https://www.akunacapital.com/careers",w:"7/14 起 · rolling",x:"C++ 岗偏低层/系统;另有 QR / Quant Dev / Hardware 实习"},
+{n:"Tower Research Capital",g:"quant",t:"T6 · 量化",c:"quant",s:"open",r:"Quantitative Developer Intern – Summer 2027 · NY/Chicago(技术对口岗)",a:"https://www.tower-research.com/open-positions/?gh_jid=8044334",h:"https://www.tower-research.com/open-positions",w:"7/5 更新 · rolling",x:"无纯 SWE 实习;Quant Dev 是技术线;另有 Quant Trader/Researcher 实习"},
+{n:"The Voleon Group",g:"ai",t:"T6 · 量化",c:"quant",s:"open",r:"Software Engineer Intern – (Summer 2027) · Berkeley, CA",a:"https://jobs.ashbyhq.com/voleon/57f1b666-2f4b-4bad-aac0-fa42a1c8fdf6",h:"https://jobs.ashbyhq.com/voleon",w:"8/14 发布 · rolling",x:"机器学习 + 系统;申请表里确认工作地点"},
+{n:"Squarepoint Capital",g:"quant",t:"T6 · 量化",c:"quant",s:"partial",r:"美国仅 Quant Researcher Intern(NY);Intern SWE 只在伦敦/蒙特利尔/新加坡",a:"https://www.squarepoint-capital.com/open-opportunities?lvl=Internship",h:"https://www.squarepoint-capital.com/early-careers",w:"US SWE 预计秋季",x:"每周查一次"},
+// ---------- T7 半导体 / 自动驾驶 ----------
+{n:"AMD",g:"sys",t:"T7 · 芯片/自驾",c:"auto",s:"open",r:"<b>2027 Masters SWE Intern/Co-op</b> · San Jose/Santa Clara(另有 Undergrad 版,多城)",a:"https://careers.amd.com/jobs/91176",h:"https://careers.amd.com/",w:"8/21 上线 · rolling",x:"iCIMS 页面 JS 重,标题已核实;Bay Area"},
+{n:"Qualcomm",g:"sys",t:"T7 · 芯片/自驾",c:"auto",s:"expected",r:"—(现只有印度/英国 2027 岗)",a:"https://careers.qualcomm.com/careers?query=intern",h:"https://www.qualcomm.com/company/careers/internships-and-early-in-career-opportunities/americas",w:"预计 9 月(去年 fall 开、次年 2/9 截止)",x:"San Diego(离 LA 近,SoCal 首选);历史接受 F-1、H-1B 大户"},
+{n:"Intel",g:"sys",t:"T7 · 芯片/自驾",c:"auto",s:"expected",r:"—",a:"https://jobs.intel.com/",h:"https://jobs.intel.com/",w:"预计 8–10 月(去年 8 月底)",x:"⚠️ 现挂实习岗明写“不支持移民 sponsor” —— 每个 JD 都要核这段;F-1 CPT 常见但逐岗确认"},
+{n:"Broadcom",g:"sys",t:"T7 · 芯片/自驾",c:"auto",s:"expected",r:"—",a:"https://careers.broadcom.com/",h:"https://www.broadcom.com/company/careers",w:"预计 9–10 月 · rolling",x:"12 周(5 月中–8 月中)"},
+{n:"Waymo",g:"ai",t:"T7 · 芯片/自驾",c:"auto",s:"partial",r:"2027 Summer Intern, MS/PhD:Data Science(商业化测试)/ 量化 UX · SF · <b>MS $70/hr</b>",a:"https://careers.withwaymo.com/jobs/2027-summer-intern-ms-phd-data-science-commercialization-testing-san-francisco-california-united-states",h:"https://careers.withwaymo.com/jobs/search",w:"rolling · 招满即止",x:"核心 SWE/ML 实习未上 —— 每周查搜索页(351 岗中仅 2 个实习)"},
+{n:"Zoox",g:"ai",t:"T7 · 芯片/自驾",c:"auto",s:"expected",r:"—(Lever 看板 0 实习)",a:"https://jobs.lever.co/zoox",h:"https://zoox.com/careers",w:"官方:10 月开申请",x:"Foster City;12 周"},
+{n:"Nuro",g:"ai",t:"T7 · 芯片/自驾",c:"auto",s:"open",r:"<b>Software Engineer, AI Platform – Intern</b> · Mountain View · 常设(evergreen)",a:"https://nuro.ai/careersitem?gh_jid=7351061",h:"https://www.nuro.ai/careers",w:"8/26 更新 · 无截止",x:"团队含 ML Infra / Data Platform / Simulation;要求 Dec 2026 及以后毕业"},
+{n:"Rivian",g:"sys",t:"T7 · 芯片/自驾",c:"auto",s:"expected",r:"—",a:"https://careers.rivian.com/students",h:"https://careers.rivian.com/students",w:"官方:申请窗口 9–10 月;面试 10–3 月",x:"12 周(5–9 月);要求有效工作许可"},
+{n:"Applied Intuition",g:"ai",t:"T7 · 芯片/自驾",c:"auto",s:"open",r:"<b>Research Intern ×5</b>:3D 视觉与生成 / RL(自驾、机器人)/ 机器人硬件 / 世界模型 · Sunnyvale · ~$65/hr",a:"https://jobs.ashbyhq.com/applied/91e0686e-272a-4780-b33d-d7860b94a7b4",h:"https://www.appliedintuition.com/careers",w:"rolling(evergreen)",x:"⚠️ 只投 Sunnyvale 自动驾驶/AI 轨道;Defense 类岗(Washington DC 等)常需 US Person"},
+{n:"Toyota Research Institute",g:"ai",t:"T7 · 芯片/自驾",c:"auto",s:"expected",r:"—(现仅一个 Fall 2026 世界模型实习岗)",a:"https://jobs.lever.co/tri/?commitment=Intern",h:"https://www.tri.global/tri-internship-program",w:"官方:秋季开、春季前招满",x:"Los Altos + Cambridge MA;4 天工作制;入职有签证流程支持"},
+{n:"Aurora Innovation",g:"ai",t:"T7 · 芯片/自驾",c:"auto",s:"expected",r:"—(78 岗 0 实习)",a:"https://jobs.ashbyhq.com/aurora-operations-inc",h:"https://aurora.tech/careers",w:"预计 9–11 月",x:"去年 ~$52/hr + $3,200 房补;Mountain View / Pittsburgh"},
+// ---------- 第二轮补录:AI Infra / Agent 公司 / 研究通道 ----------
+{n:"Anyscale",t:"T4 · AI Infra",c:"ai",g:"ai",s:"expected",r:"—(19 岗 0 实习;去年有 SWE Intern 项目:Ray Core / Ray Data / Platform / LLM-RL 分组)",a:"https://jobs.ashbyhq.com/anyscale",h:"https://www.anyscale.com/careers",w:"预计 9–12 月放 · rolling",x:"⭐ Ray 官方公司——有 Ray/分布式管线经验者高度对口;SF hybrid;去年 $63–75/hr + $5k 房补"},
+{n:"Hugging Face",t:"T4 · AI Infra",c:"ai",g:"ai",s:"expected",r:"—(7 岗 0 实习;正式实习往年 11–12 月放,15+ 方向)",a:"https://apply.workable.com/huggingface/j/0BD8C06DB3/apply",h:"https://huggingface.co/careers",w:"实习预计 11–12 月;Wild Card 常开",x:"Wild Card 岗(美国 remote)现在就能投;remote-first;薪资一般但开源叙事价值高"},
+{n:"Together AI",t:"T4 · AI Infra",c:"ai",g:"ai",s:"expected",r:"—(58 岗 0 实习;Summer/Fall 2026 批均已招满关闭)",a:"https://job-boards.greenhouse.io/togetherai",h:"https://www.together.ai/careers",w:"预计今秋 · rolling",x:"滚动多学期制(Summer/Fall/Winter 都招)对时间线灵活;刚招 University Recruiting PM=项目在正规化;$58–63/hr"},
+{n:"Fireworks AI",t:"T4 · AI Infra",c:"ai",g:"ai",s:"noprogram",r:"67 岗 0 实习,全 MTS 级",a:"",h:"https://fireworks.ai/careers",w:"—",x:"无实习项目;偏资深招聘"},
+{n:"Modal",t:"T4 · AI Infra",c:"ai",g:"ai",s:"open",r:"<b>ML Research Intern</b>(Fall 2026 学期)· NY/SF · ~$15k/月",a:"https://jobs.ashbyhq.com/modal/38888294-6bc7-4dab-b072-6d0f0c2ed79a/application",h:"https://modal.com/careers",w:"7/28 发布 · rolling",x:"偏 PhD(RL/基础模型)但未排除 MS——可投并等 Summer 2027 版;GPU/推理 infra 方向"},
+{n:"Cerebras",t:"T4 · AI Infra",c:"ai",g:"ai",s:"expected",r:"—(108 岗 0 实习;New Grad 岗在挂)",a:"https://www.cerebras.ai/join-us",h:"https://www.cerebras.ai/internships",w:"官方:1 / 5 / 9 月放岗 · rolling",x:"Sunnyvale + Toronto;大学 Handshake(校内求职平台)也是发布渠道——设提醒;简历+成绩单、1–2 轮现场编码"},
+{n:"Groq",t:"T4 · AI Infra",c:"ai",g:"ai",s:"noprogram",r:"全公司仅 1 个开放岗",a:"",h:"https://groq.com/company",w:"—",x:"Nvidia 交易后实习项目停摆(2026 届 offer 曾被撤);10–11 月可复查一次;LPU 相关可转投 NVIDIA 通道"},
+{n:"SambaNova",t:"T4 · AI Infra",c:"ai",g:"ai",s:"expected",r:"—(58 岗 0 实习)",a:"https://boards.greenhouse.io/sambanovasystems",h:"https://sambanova.ai/company/careers",w:"预计 9–11 月(往年窗口)",x:"San Jose / Austin;ML 轨道偏好 MS/PhD;被动关注即可"},
+{n:"Decagon",t:"T4 · AI Agent 应用",c:"ai",g:"ai",s:"noprogram",r:"138 岗 0 实习(全全职)",a:"",h:"https://decagon.ai/careers",w:"—",x:"无实习项目(Ashby 全量核实)"},
+{n:"Hebbia",t:"T4 · AI Agent 应用",c:"ai",g:"ai",s:"noprogram",r:"23 岗 0 实习",a:"",h:"https://www.hebbia.com/careers",w:"—",x:"无实习项目;有 Agents 方向全职岗"},
+{n:"Harvey",t:"T4 · AI Agent 应用",c:"ai",g:"ai",s:"noprogram",r:"351 岗;唯一学生岗是法学院品牌大使",a:"",h:"https://www.harvey.ai/careers",w:"—",x:"无工程/AI 实习项目"},
+{n:"Ai2",t:"T3 · 研究通道",c:"ai",g:"ai",s:"expected",r:"—(23 岗 0 实习;去年含 PRIOR / AI for Science / Open Agentic LLM 方向)",a:"https://job-boards.greenhouse.io/thealleninstitute",h:"https://allenai.org/internships",w:"官方:夏季岗前一年秋季放(9–11 月盯)",x:"✅ 官方明确实习 visa sponsorship;12 周西雅图;另有 Predoctoral Young Investigator 常设岗(类驻留)"},
+{n:"Microsoft Research",t:"T3 · 研究通道",c:"ai",g:"ai",s:"partial",r:"Research Intern 全年滚动;美国现挂 1 个:<b>Self-Improving AI</b>(MSR NYC / Cambridge MA,5/18 挂)",a:"https://apply.careers.microsoft.com/careers/job/1970393556867858",h:"https://www.microsoft.com/en-us/research/careers/open-positions/",w:"rolling 全年",x:"官方“协助签证”✓;38 个实习 req 中 36 个在亚研(中国);美国 req 季节性上——每周查;偏 PhD 但无 MS 硬门槛"},
+// ---------- 第二轮补录:游戏娱乐 / 保底池 ----------
+{n:"Riot Games",t:"T8 · 游戏娱乐",c:"game",g:"sys",s:"expected",r:"—(官方 FAQ:<b>9 月开放申请</b>;10–12 周 remote + LA 总部一周)",a:"https://www.riotgames.com/en/work-with-us/jobs",h:"https://www.riotgames.com/en/student-internships",w:"官方:9 月开 · 名额放出即投",x:"$56.6/hr;LA 本地最佳游戏选项;“可在居住国合法工作”措辞对 F-1/CPT 可行;游戏 AI 背景加分"},
+{n:"Electronic Arts",t:"T8 · 游戏娱乐",c:"game",g:"sys",s:"partial",r:"<b>Rendering SWE Intern – Fall 2026</b>(Orlando,现可投);Summer 2027 伞形岗预计 9 月(去年含 Playa Vista LA)",a:"https://jobs.ea.com/en_US/careers/JobDetail/Software-Engineer-Intern/210865",h:"https://www.ea.com/careers/early-careers",w:"Fall 岗 live;Summer 预计 9 月",x:"⚠️ 明确不 sponsor(#LI-DNI)——CPT 是否满足需先问 recruiter;~$33.65/hr;12 周;游戏行业背景加分"},
+{n:"Sony PlayStation",t:"T8 · 游戏娱乐",c:"game",g:"sys",s:"expected",r:"—(专属实习看板现为空,2027 岗将在此出现)",a:"https://job-boards.greenhouse.io/ussummerinternships",h:"https://careers.playstation.com/early-careers",w:"预计 9–11 月(去年 fall 放)",x:"✅ 官方明确 F-1 可投;San Mateo / LA / San Diego 或 remote;⚠️ 去年毕业线 Spring 2027——放岗时核对 Dec 2027 是否符合;去年 SD $49.5/hr"},
+{n:"Epic Games",t:"T8 · 游戏娱乐",c:"game",g:"sys",s:"open",r:"Gameplay / Frontend / Tools Programmer Intern + <b>ML Intern</b>(Epic Research Group)· 滚动,2027 灵活入职",a:"https://epicgames.com/careers/jobs/6138134004",h:"https://www.epicgames.com/site/en-US/careers",w:"8/13–31 更新 · 滚动至招满",x:"⚠️ 美国 intern 全在 Cary, NC;ML 岗要求已有工作权(不 sponsor)且偏 PhD/MSc 应届;编程岗要求 posting location 工作权"},
+{n:"Disney",t:"T8 · 游戏娱乐",c:"game",g:"sys",s:"partial",r:"<b>SWE Intern, Spring 2027</b>(Orlando,6 个月 1–6 月)8/28 挂出;技术线 Summer 2027(含 AI/RAG 方向)预计 10 月起滚动放",a:"https://disney.wd5.myworkdayjobs.com/en-US/disneycareer/job/Orlando-FL-USA/Software-Engineering-Intern--Spring-2027_10158599",h:"https://disneycareers.com/en",w:"Spring 岗 live;Summer 预计 2026-10 起",x:"⚠️ 需 unrestricted work authorization;Spring 6 个月与春季学期冲突——等技术线 Summer 岗(去年 AI 实习做 RAG/LangChain/LangGraph,3 月才放、一周满);Burbank 是技术线枢纽"},
+{n:"Spotify",t:"T8 · 游戏娱乐",c:"game",g:"sys",s:"expected",r:"—(2026 批已关;美国实习只在 NYC)",a:"https://www.lifeatspotify.com/jobs",h:"https://www.lifeatspotify.com/start-your-journey/students",w:"预计秋季放;去年硬截止 2/5 12:00 ET",x:"10 周;NYC/London/Stockholm;另有 Fellowship(1 月入职,第一代大学生/Pell 资助限定)可顺手查"},
+{n:"Tencent America",t:"T9 · 保底池",c:"ai",g:"ai",s:"open",r:"<b>混元多模态算法实习(Omni-Modal)</b>(Palo Alto,$80–125k 带)· <b>Game R&D Engine Intern</b>(<b>Los Angeles</b>)· IT 运维(Bellevue)——常年滚动",a:"https://join.qq.com/post.html?postId=2029502206922883072",h:"https://careers.tencent.com/en-us/search.html?keyword=intern",w:"滚动(7–8 月更新)",x:"无年份标签、随时可投;含 LA 岗;游戏引擎岗适合有游戏行业背景者;JD 无签证说明——面试时确认 CPT"},
+{n:"Sony Electronics",t:"T9 · 保底池",c:"consumer",g:"sys",s:"open",r:"<b>Software Engineer Intern</b>(JR-119282)· San Diego(美国总部)· $24.2–38.5/hr",a:"https://sonyglobal.wd1.myworkdayjobs.com/en-US/sonyglobalcareers/job/San-Diego/Software-Engineer-Intern_JR-119282",h:"https://sonyglobal.wd1.myworkdayjobs.com/en-US/sonyglobalcareers",w:"live(~8 月挂出)",x:"Golang/Rust/Node/React + ML/AI 应用;LA 本地保底;正文未标学期,投前确认夏季可用"},
+{n:"PayPal",t:"T9 · 保底池",c:"consumer",g:"sys",s:"expected",r:"—",a:"https://careers.pypl.com/home/",h:"https://careers.pypl.com/home/",w:"预计 9–10 月(去年 9 月开)",x:"San Jose/Austin/NY 等;sponsor 案例制(二手信息);12 周;毕业窗口 Dec 2027–Jun 2028 正匹配"},
+{n:"Block (Square)",t:"T9 · 保底池",c:"consumer",g:"sys",s:"expected",r:"—(仅 PhD research co-op 在挂)",a:"https://block.xyz/careers",h:"https://boards.greenhouse.io/block",w:"预计 8–11 月 · rolling",x:"⚠️ 去年毕业窗口 May 2027–May 2028——2027 版可能不含 Dec 2027 毕业,放岗细读;SF/Seattle/NY;去年 $39–51/hr 无 sponsor 限制语"},
+{n:"Walmart Global Tech",t:"T9 · 保底池",c:"consumer",g:"sys",s:"partial",r:"“Software Engineer - Intern” 疑似已在聚合源出现(官网 JS 无法直读,需手动确认);Summer 2027 其他项目已开",a:"https://careers.walmart.com/technology",h:"https://careers.walmart.com/technology",w:"周期 8–10 月;rolling,9 月中前大部分面试位满",x:"✅ 官方:F-1 CPT/OPT 可投(实习本就无需 H-1B);Sunnyvale/Bentonville;AFDP 项目明确含 Dec 2027 毕业"},
+{n:"Micron",t:"T9 · 保底池",c:"auto",g:"sys",s:"partial",r:"<b>Intern – AI Systems and Infrastructure Engineering</b>(Austin,8/31 挂)等 40+ 美国实习岗(多数未标年份)",a:"https://micron.wd1.myworkdayjobs.com/External/job/Austin-TX/Intern---AI-Systems-and-Infrastructure-Engineering_JR109990",h:"https://www.micron.com/careers",w:"8/31 起 · rolling;2027 标签批预计 9–11 月",x:"系统软件 / profiling / GPU-CPU-内存优化——偏 infra,与 Ray/分布式背景有交集;Boise/Austin/San Jose;JD 无签证限制语"},
+{n:"Arm",t:"T9 · 保底池",c:"auto",g:"sys",s:"expected",r:"—",a:"https://careers.arm.com/intern-jobs",h:"https://careers.arm.com/internships",w:"<b>官方:2026 年 9 月开放</b>",x:"Austin;招聘系统是 iCIMS(非 Workday);签证 FAQ 只写了 UK——放岗后问"},
+{n:"Marvell",t:"T9 · 保底池",c:"auto",g:"sys",s:"expected",r:"—(118 岗,实习仅中国/意大利;美国去年 10–11 月放 SWE/FW/Cloud 实习)",a:"https://careers.marvell.com/",h:"https://careers.marvell.com/",w:"预计 9–11 月",x:"Santa Clara/San Diego/Irvine——SoCal 有据点;去年有 Master's 向 Cloud Platform 实习"},
+{n:"Zoom",t:"T9 · 保底池",c:"consumer",g:"sys",s:"expected",r:"—",a:"https://careers.zoom.us/jobs/search?keywords=intern",h:"https://careers.zoom.us/",w:"异常:往年 7 月底开、今年未上——每周查",x:"San Jose/Seattle;去年 2/2 关;无签证限制语"},
+];
+
+// ---- 渲染 ----
+const ST = {open:["st-open","🟢 已开放 · 可投"], partial:["st-partial","🟠 部分开放"], expected:["st-expected","🟡 未开放 · 等待"], closed:["st-closed","⚫ 已关 · 等重开"], blocked:["st-blocked","🔴 F-1 不可投"], noprogram:["st-noprogram","⚪ 无实习项目"]};
+const ORDER = {open:0, partial:1, expected:2, closed:3, blocked:4, noprogram:5};
+let cur = "all";
+function rowHtml(d,i){
+  const st = ST[d.s];
+  const dl = d.d ? ` <span class="dl">⏰ ${d.d}</span>` : "";
+  const apply = d.a ? `<a class="btn" href="${d.a}" target="_blank">申请 →</a>` : `<span class="mut">—</span>`;
+  return `<tr data-s="${d.s}" data-c="${d.c}">
+    <td class="co">${i+1}. <a href="${d.h}" target="_blank">${d.n}</a> <span class="gtag gt-${d.g}">${GNAME[d.g]}</span>${d.g==="quant"?" <span class=\"gtag\" style=\"background:#f3f4f6;color:#9ca3af\">已弃投</span>":""}<span class="tier">${d.t}</span></td>
+    <td><span class="chip ${st[0]}">${st[1]}</span></td>
+    <td>${d.r}</td>
+    <td>${apply}</td>
+    <td><a href="${d.h}" target="_blank" class="btn2">官网 ↗</a></td>
+    <td>${d.w}${dl}</td>
+    <td class="note">${d.x}</td><td><select class="my" data-k="${d.n}">${MY.map(o=>"<option>"+o+"</option>").join("")}</select></td></tr>`;
+}
+function render(){
+  const q = document.getElementById("q").value.trim().toLowerCase();
+  const list = D.map((d,i)=>({d,i})).filter(({d})=>{
+    if(d.g==="quant" && cur!=="cat-quant" && localStorage.getItem("hideq2027")!=="0") return false;
+    if(cur==="all") return true;
+    if(cur.startsWith("cat-")) return d.c===cur.slice(4);
+    if(cur.startsWith("g-")) return d.g===cur.slice(2);
+    return d.s===cur;
+  }).filter(({d})=>!q || (d.n+" "+d.r+" "+d.x+" "+d.w).toLowerCase().includes(q));
+  document.getElementById("tb").innerHTML = list.map(({d,i})=>rowHtml(d,i)).join("") || `<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--muted)">没有匹配的公司</td></tr>`;
+  restoreMy();
+}
+document.querySelectorAll(".fbtn").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".fbtn").forEach(x=>x.classList.remove("on"));
+  b.classList.add("on"); cur=b.dataset.f; render();
+}));
+document.getElementById("q").addEventListener("input",render);
+const hq = document.getElementById("hideq");
+const hqOn = ()=> localStorage.getItem("hideq2027")!=="0";
+if(!hqOn()) hq.classList.remove("on");
+hq.addEventListener("click",()=>{
+  localStorage.setItem("hideq2027", hqOn()?"0":"1");
+  hq.classList.toggle("on", hqOn());
+  render();
+});
+const GNAME={ai:"🤖 AI 强匹配",sys:"⚙️ 通用 SWE",quant:"📈 量化系统"};
+const GORD={ai:0,sys:1,quant:2};
+const MY=["未投","✅ 已投","📝 OA/测评","🗣 约面","🎉 Offer","❌ 拒"];
+document.getElementById("tb").addEventListener("change",e=>{
+  if(e.target.classList.contains("my")){
+    const s=JSON.parse(localStorage.getItem("my2027")||"{}");
+    s[e.target.dataset.k]=e.target.value;
+    localStorage.setItem("my2027",JSON.stringify(s));
+  }
+});
+function restoreMy(){
+  const s=JSON.parse(localStorage.getItem("my2027")||"{}");
+  document.querySelectorAll("#tb select.my").forEach(el=>{ if(s[el.dataset.k]) el.value=s[el.dataset.k]; });
+}
+D.sort((a,b)=> (ORDER[a.s]-ORDER[b.s]) || (GORD[a.g]-GORD[b.g]) || a.t.localeCompare(b.t) || a.n.localeCompare(b.n));
+render();
+const cnt = k => D.filter(d=>d.s===k).length;
+document.getElementById("stats").innerHTML = `
+  <div class="stat g"><b>${cnt("open")}</b><span>已开放 · 可立即投</span></div>
+  <div class="stat o"><b>${cnt("partial")}</b><span>部分开放(部分岗位/需确认)</span></div>
+  <div class="stat y"><b>${cnt("expected")}</b><span>未开放 · 预计 9–11 月为主</span></div>
+  <div class="stat r"><b>${cnt("blocked")+cnt("noprogram")}</b><span>不可投 / 无项目(已划掉)</span></div>
+  <div class="stat"><b>${D.filter(d=>d.g==="ai").length}</b><span>🤖 AI 强匹配</span></div>
+  <div class="stat"><b>${D.filter(d=>d.g==="sys").length}</b><span>⚙️ 通用 SWE</span></div>
+  <div class="stat"><b>${D.filter(d=>d.g==="quant").length}</b><span>📈 量化系统</span></div>
+  <div class="stat"><b>${D.length}</b><span>公司总数</span></div>`;
+
+document.getElementById("exp").addEventListener("click",()=>{
+  const data = {app:"summer2027-tracker", exportedAt:new Date().toISOString(),
+    progress:JSON.parse(localStorage.getItem("my2027")||"{}")};
+  const blob = new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "我的申请进度-2027.json";
+  a.click(); URL.revokeObjectURL(a.href);
+});
+document.getElementById("imp").addEventListener("click",()=>document.getElementById("impf").click());
+document.getElementById("impf").addEventListener("change",e=>{
+  const f = e.target.files[0]; if(!f) return;
+  f.text().then(t=>{
+    try{
+      const j = JSON.parse(t); const p = j.progress||j;
+      localStorage.setItem("my2027",JSON.stringify(p));
+      restoreMy();
+      alert("已导入 "+Object.keys(p).length+" 家公司的进度");
+    }catch(err){ alert("文件解析失败:"+err.message); }
+  });
+});
+</script>
+
+<section class="card" style="margin-top:20px">
+  <h2>🧭 每周复查方法(数据是 8/31 快照)</h2>
+  <ul class="dead">
+    <li>众包追踪(更新最快,每天有人提交):<a href="https://github.com/SimplifyJobs/Summer2027-Internships" target="_blank">SimplifyJobs/Summer2027-Internships</a>(820+ 岗)· <a href="https://github.com/speedyapply/2027-SWE-College-Jobs" target="_blank">speedyapply/2027-SWE-College-Jobs</a>(美国岗)· <a href="https://github.com/northwesternfintech/2027QuantInternships" target="_blank">northwesternfintech/2027QuantInternships</a>(量化)</li>
+    <li>重点盯梢(TikTok 之外的每周清单):Two Sigma SWE · Snowflake · Airbnb · Glean · OpenAI · Scale · Databricks Summer SWE · Figma Summer · Waymo SWE · Robinhood · Qualcomm · Netflix · LinkedIn · Meta · Amazon · Microsoft(手动)· <b>Riot(官方:9 月)· Arm(官方:9 月)</b> · PlayStation 专属看板 · Anyscale · Together · Ai2 · Walmart(手动查,疑似已上)· Hugging Face(11–12 月)</li>
+    <li>深链失效时,点「官网 ↗」进官方看板重新搜 "intern 2027"。</li>
+    <li>投资节奏:所有岗位滚动审核 —— <b>开放当天/次日投出</b>的通过率显著更高(Intuit 两周关岗就是例子)。</li>
+  </ul>
+</section>
+
+<footer>
+  数据核至于 2026-09-01 · 两轮共 11 路并行 AI 调研(Claude Code)逐公司一手核实(各 ATS 招聘看板 API / 官方 careers 页面 / 官方 FAQ),来源链接已逐条核验。薪酬数据来自岗位页或聚合站(levels.fyi 等,标注为二手)。本页为静态快照,深链失效时请用「官网 ↗」列。
+</footer>
+
+</div>
+</body>
+</html>
