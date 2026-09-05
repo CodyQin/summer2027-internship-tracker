@@ -16,7 +16,7 @@ Open `tracker.html` in any browser. Everything runs locally: filters, search, an
 
 ## 方法论 · Methodology
 
-- 数据核至于 **2026-09-01**,由**两轮共 11 路并行 AI 调研**(Claude Code 多 agent 编排)逐公司核实
+- 数据核至于 **2026-09-04**,由**七轮共 31 路并行 AI 调研**(Claude Code 多 agent 编排)逐公司核实
 - 每家公司直接查询其 ATS 看板 API(Greenhouse `boards-api` / Ashby `posting-api` / Lever / Workday CXS)或官方 careers 页面;JS 重的门户用多源搜索快照佐证并注明
 - **日期纪律**:上一周期(Summer 2026)的过期岗位一律不计为在招;只有 2027 年份标注或常设滚动岗计为开放
 - 每条状态结论附证据 URL;薪酬来自岗位页或聚合站(levels.fyi 等,已标注二手)
