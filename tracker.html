@@ -58,6 +58,8 @@
   .mut{color:var(--muted);font-size:12px}
   .note{font-size:12px;color:#374151}
   .dead li{margin:5px 0}
+  tr.rowme td{background:#f0fdf4}
+  tr.rowme:hover td{background:#dcfce7}
   .gtag{font-size:10px;border-radius:4px;padding:1px 5px;font-weight:600;white-space:nowrap;margin-left:4px;vertical-align:1px}
   .gt-ai{background:#ede9fe;color:#6d28d9}
   .gt-sys{background:#f1f5f9;color:#475569}
@@ -80,7 +82,7 @@
 <section class="card">
   <h2>🔥 本周行动(2026-09-05 更新 · 只列未完成项)</h2>
   <ol class="action">
-    <li>📋 用每行「我的进度」下拉记录投递状态(已投/OA/约面/Offer/拒)——数据只存本地浏览器,可导出备份。</li>
+    <li>📋 已投 6 家:<b>Google ×3</b>(30 天额度满,10 月初前勿再投)· <b>Stripe</b> · <b>Microsoft</b> · <b>Salesforce</b>(12 个月额度 1/3)· <b>Western Digital</b> · <b>Sierra</b> · <b>Scale AI</b> ✅</li>
     <li><b>TikTok + ByteDance 合计 2 个</b>(配额珍贵,想好再点):首选 <a href="https://lifeattiktok.com/en/position/7668445566565321013/detail" target="_blank">TikTok Agentic Creation – Effect Platform</a>(LLM/prompts/MCPs,档案级匹配)+ <a href="https://jobs.bytedance.com/en/position/7673274910202988805/detail" target="_blank">ByteDance Seed – AI Foundation Model Infrastructure</a>(BS/MS)。</li>
     <li><b>Adobe — 2027 ML Engineer Intern</b>(GenAI/LLM,R171519,rolling 无截止):Workday 门户搜 req 号 → <a href="https://adobe.wd5.myworkdayjobs.com/en-US/external_experienced" target="_blank">申请 →</a></li>
     <li><b>NVIDIA 2027 池</b>:<a href="https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/NVIDIA-2027-Internships--Deep-Learning_JR2023497-1" target="_blank">Deep Learning</a>(ML 首选)+ <a href="https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/NVIDIA-2027-Internships--Software-Engineering_JR2023495" target="_blank">SWE</a>(一申覆盖多团队)。</li>
@@ -120,9 +122,7 @@
     <button class="fbtn" data-f="g-sys">⚙️ 通用 SWE</button>
     <button class="fbtn" data-f="g-quant">📈 量化系统</button>
     <button class="fbtn on" id="hideq" title="已决定不投量化;点击临时显示/再隐藏">🙈 隐藏量化(已弃投)</button>
-    <button class="fbtn" id="exp" title="把勾选的进度导出成 JSON 文件(给 Claude 看或备份)">📤 导出进度</button>
-    <button class="fbtn" id="imp" title="从之前导出的 JSON 恢复进度">📥 导入进度</button>
-    <input type="file" id="impf" accept="application/json,.json" hidden>
+    <button class="fbtn" data-f="me">✅ 我投过的</button>
     <input id="q" type="search" placeholder="搜索公司 / 岗位 / 城市…">
   </div>
 </div>
@@ -130,7 +130,7 @@
 <div class="tblwrap">
 <table id="tbl">
   <thead><tr>
-    <th>公司</th><th>状态</th><th>2027 岗位(原题)</th><th>直达申请</th><th>官网 / 看板</th><th>时间线</th><th>备注(F-1 / 匹配度)</th><th>我的进度</th>
+    <th>公司</th><th>状态</th><th>2027 岗位(原题)</th><th>直达申请</th><th>官网 / 看板</th><th>时间线</th><th>备注(F-1 / 匹配度)</th>
   </tr></thead>
   <tbody id="tb"></tbody>
 </table>
@@ -270,26 +270,26 @@ function rowHtml(d,i){
   const st = ST[d.s];
   const dl = d.d ? ` <span class="dl">⏰ ${d.d}</span>` : "";
   const apply = d.a ? `<a class="btn" href="${d.a}" target="_blank">申请 →</a>` : `<span class="mut">—</span>`;
-  return `<tr data-s="${d.s}" data-c="${d.c}">
-    <td class="co">${i+1}. <a href="${d.h}" target="_blank">${d.n}</a> <span class="gtag gt-${d.g}">${GNAME[d.g]}</span>${d.g==="quant"?" <span class=\"gtag\" style=\"background:#f3f4f6;color:#9ca3af\">已弃投</span>":""}<span class="tier">${d.t}</span></td>
+  return `<tr data-s="${d.s}" data-c="${d.c}" class="${d.st?"rowme":""}">
+    <td class="co">${i+1}. ${d.st?PST[d.st]+" ":""}<a href="${d.h}" target="_blank">${d.n}</a> <span class="gtag gt-${d.g}">${GNAME[d.g]}</span>${d.g==="quant"?" <span class=\"gtag\" style=\"background:#f3f4f6;color:#9ca3af\">已弃投</span>":""}<span class="tier">${d.t}</span></td>
     <td><span class="chip ${st[0]}">${st[1]}</span></td>
     <td>${d.r}</td>
     <td>${apply}</td>
     <td><a href="${d.h}" target="_blank" class="btn2">官网 ↗</a></td>
     <td>${d.w}${dl}</td>
-    <td class="note">${d.x}</td><td><select class="my" data-k="${d.n}">${MY.map(o=>"<option>"+o+"</option>").join("")}</select></td></tr>`;
+    <td class="note">${d.x}</td></tr>`;
 }
 function render(){
   const q = document.getElementById("q").value.trim().toLowerCase();
   const list = D.map((d,i)=>({d,i})).filter(({d})=>{
     if(d.g==="quant" && cur!=="cat-quant" && localStorage.getItem("hideq2027")!=="0") return false;
+    if(cur==="me") return !!d.st;
     if(cur==="all") return true;
     if(cur.startsWith("cat-")) return d.c===cur.slice(4);
     if(cur.startsWith("g-")) return d.g===cur.slice(2);
     return d.s===cur;
   }).filter(({d})=>!q || (d.n+" "+d.r+" "+d.x+" "+d.w).toLowerCase().includes(q));
-  document.getElementById("tb").innerHTML = list.map(({d,i})=>rowHtml(d,i)).join("") || `<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--muted)">没有匹配的公司</td></tr>`;
-  restoreMy();
+  document.getElementById("tb").innerHTML = list.map(({d,i})=>rowHtml(d,i)).join("") || `<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--muted)">没有匹配的公司</td></tr>`;
 }
 document.querySelectorAll(".fbtn").forEach(b=>b.addEventListener("click",()=>{
   document.querySelectorAll(".fbtn").forEach(x=>x.classList.remove("on"));
@@ -304,20 +304,9 @@ hq.addEventListener("click",()=>{
   hq.classList.toggle("on", hqOn());
   render();
 });
+const PST={applied:"✅",oa:"📝",interview:"🗣",offer:"🎉",reject:"❌"};
 const GNAME={ai:"🤖 AI 强匹配",sys:"⚙️ 通用 SWE",quant:"📈 量化系统"};
 const GORD={ai:0,sys:1,quant:2};
-const MY=["未投","✅ 已投","📝 OA/测评","🗣 约面","🎉 Offer","❌ 拒"];
-document.getElementById("tb").addEventListener("change",e=>{
-  if(e.target.classList.contains("my")){
-    const s=JSON.parse(localStorage.getItem("my2027")||"{}");
-    s[e.target.dataset.k]=e.target.value;
-    localStorage.setItem("my2027",JSON.stringify(s));
-  }
-});
-function restoreMy(){
-  const s=JSON.parse(localStorage.getItem("my2027")||"{}");
-  document.querySelectorAll("#tb select.my").forEach(el=>{ if(s[el.dataset.k]) el.value=s[el.dataset.k]; });
-}
 D.sort((a,b)=> (ORDER[a.s]-ORDER[b.s]) || (GORD[a.g]-GORD[b.g]) || a.t.localeCompare(b.t) || a.n.localeCompare(b.n));
 render();
 const cnt = k => D.filter(d=>d.s===k).length;
@@ -330,28 +319,6 @@ document.getElementById("stats").innerHTML = `
   <div class="stat"><b>${D.filter(d=>d.g==="sys").length}</b><span>⚙️ 通用 SWE</span></div>
   <div class="stat"><b>${D.filter(d=>d.g==="quant").length}</b><span>📈 量化系统</span></div>
   <div class="stat"><b>${D.length}</b><span>公司总数</span></div>`;
-
-document.getElementById("exp").addEventListener("click",()=>{
-  const data = {app:"summer2027-tracker", exportedAt:new Date().toISOString(),
-    progress:JSON.parse(localStorage.getItem("my2027")||"{}")};
-  const blob = new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "我的申请进度-2027.json";
-  a.click(); URL.revokeObjectURL(a.href);
-});
-document.getElementById("imp").addEventListener("click",()=>document.getElementById("impf").click());
-document.getElementById("impf").addEventListener("change",e=>{
-  const f = e.target.files[0]; if(!f) return;
-  f.text().then(t=>{
-    try{
-      const j = JSON.parse(t); const p = j.progress||j;
-      localStorage.setItem("my2027",JSON.stringify(p));
-      restoreMy();
-      alert("已导入 "+Object.keys(p).length+" 家公司的进度");
-    }catch(err){ alert("文件解析失败:"+err.message); }
-  });
-});
 </script>
 
 <section class="card" style="margin-top:20px">
