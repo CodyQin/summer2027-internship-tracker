@@ -1,8 +1,8 @@
 # Summer 2027 Internship Tracker · 2027 暑期美国实习追踪
 
-**154 家美国科技公司 · Summer 2027 SWE/ML/AI 实习 · 逐公司一手核实 · 可直接点击申请**
+**168 家美国科技公司 · Summer 2027 SWE/ML/AI 实习 · 逐公司一手核实 · 可直接点击申请**
 
-A verified, one-click-applicable tracker of **Summer 2027 tech internships at 154 US companies** — every row checked against the company's own ATS job board (not crowdsourced copy-paste), with status, direction tags, timelines, deadlines, and F-1/visa notes.
+A verified, one-click-applicable tracker of **Summer 2027 tech internships at 168 US companies** — every row checked against the company's own ATS job board (not crowdsourced copy-paste), with status, direction tags, timelines, deadlines, and F-1/visa notes.
 
 ## 使用 · How to use
 
