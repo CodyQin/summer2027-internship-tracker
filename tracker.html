@@ -91,7 +91,7 @@ tr.st-reject:hover td{background:#fee2e2}
 <header>
   <h1>2027 暑期实习申请追踪</h1>
   <div class="sub">Summer 2027 Internship Tracker · US SWE / ML / AI</div>
-  <p class="meta">目标岗位:SWE / ML / AI Engineer Intern · 美国 · 含 F-1 签证注意事项 · 数据截至 <b>2026-09-14</b>,共 <b>200</b> 家公司,全部经一手来源核实(各公司 ATS 招聘看板 / 官方页面),非道听途说。</p>
+  <p class="meta">目标岗位:SWE / ML / AI Engineer Intern · 美国 · 含 F-1 签证注意事项 · 数据截至 <b>2026-09-14</b>,共 <b>207</b> 家公司,全部经一手来源核实(各公司 ATS 招聘看板 / 官方页面),非道听途说。</p>
   <div class="stats" id="stats"></div>
 </header>
 
@@ -141,6 +141,7 @@ tr.st-reject:hover td{background:#fee2e2}
     <button class="fbtn" data-f="cat-quant">量化</button>
     <button class="fbtn" data-f="cat-auto">芯片 / 自动驾驶</button>
     <button class="fbtn" data-f="cat-game">🎮 游戏娱乐</button>
+    <button class="fbtn" data-f="cat-asia">🌏 Asia 备线</button>
     <button class="fbtn" data-f="cat-consumer">消费 / 金融</button>
     <button class="fbtn" data-f="g-ai">🤖 AI 强匹配</button>
     <button class="fbtn" data-f="g-sys">⚙️ 通用 SWE</button>
@@ -211,6 +212,13 @@ const D = [
 // ---------- T4 AI / 软件创业 ----------
 {n:"Workato AI Lab",t:"T4 · AI Agent 应用",c:"ai",g:"ai",s:"partial",r:"<b>Research Intern</b>(LLM agent 系统/multi-agent+MCP/高效微调/推理优化;SF onsite)——批次:<b>Winter 2026 / Spring 2027</b>",a:"",h:"https://www.workato.com/careers",w:"在招 · rolling",x:"⚠️ 两红灯:①硬性顶会发表要求(ICML/NeurIPS/ICLR/ACL 等)——SenSys demo 弱满足,🎓倾向;②批次横跨 2027 春季学期,与主线冲突。JD 偏好项高度对口(self-evolving agents/开源 ML infra/研究×生产桥接);cover letter 已备(cover_letters/workato_research_intern.md)"},
 {n:"Autoliv",t:"T9 · 保底池",c:"auto",g:"ai",s:"expected",r:"—(美国 0 实习;原 GenAI Intern 岗已下)",a:"",h:"https://career.autoliv.com",w:"美国 2027 批未开",x:"直查:career.autoliv.com/jobs.rss(Teamtailor);9/10 晚核:全站实习仅剩罗马尼亚/波兰 2 个(PM/制造);若 GenAI 岗重放,原三红灯评估仍适用(学期 CPT ≤20h vs 4 天 onsite、1 年期互斥、密歇根);cover letter 已备(cover_letters/autoliv_genai_intern.md)"},
+{n:"Mastercard (SG)",t:"🌏 SG 备线",c:"asia",g:"sys",s:"blocked",r:"—(SWE Intern Summer 2027 – Singapore,R-287574,9/4 挂)",a:"https://mastercard.wd1.myworkdayjobs.com/en-US/Campus/job/Software-Engineer-Intern--Summer-2027---Singapore_R-287574",h:"https://careers.mastercard.com/",w:"2027/5/3–7/23",x:"🔴 限本科(Dec 2027–Jul 2028 毕业)+明文不赞助签证——双杀定案"},
+{n:"Micron (Singapore)",t:"🌏 SG 备线",c:"asia",g:"sys",s:"partial",r:"10+ 个 SG Intern 岗在招(STPG Firmware JR111318 等)——⚠️ 6 个月项目制、固定入职日,非 5–8 月暑期 batch",a:"https://micron.wd1.myworkdayjobs.com/en-US/External/job/MSB-Singapore/Intern---STPG-PE-FIrmware_JR111318",h:"https://micron.wd1.myworkdayjobs.com/en-US/External",w:"常年滚动",x:"JD 无就读地/签证条款;暑期 3 个月窗口需与 recruiter 谈;美国 Boise 岗另在招"},
+{n:"Google (SG/APAC)",t:"🌏 SG 备线",c:"asia",g:"sys",s:"expected",r:"—(2027 SWE Intern 全球申请已开放;SG/APAC 专属批次与资格原文未核到)",a:"https://www.google.com/about/careers/applications/jobs/results/100648618540573382-software-engineering-intern-bs-summer-2027",h:"https://www.google.com/about/careers/applications/",w:"8–10 月放 · batch 制 rolling",x:"⚠️ 往年 APAC 批次常见 enrolled at a university in Asia Pacific 条款——今年是否保留未核,投前必须点开 SG req 自查"},
+{n:"Microsoft (SG/HK)",t:"🌏 SG 备线",c:"asia",g:"sys",s:"expected",r:"—(官方资格页 APAC 段不限就读大学地点+明写提供签证赞助;2027 SG 具体实习 req 未核到)",a:"https://careers.microsoft.com/v2/global/en/universityinternship",h:"https://careers.microsoft.com/",w:"US 2027 大学岗 9/3 放约 9 天即关——SG 可能同款短窗,每 2–3 天手动筛 Singapore",x:"✅ 资格政策利好(penultimate-year BA/MA/PhD,实习后至少剩一学期);门户反爬,手动查"},
+{n:"Sierra (Singapore)",t:"🌏 SG 备线",c:"asia",g:"ai",s:"open",r:"<b>SWE Intern, Agent(Summer 2027,SG onsite)</b>——毕业窗原文 December 2027 - June 2028 完美命中",a:"https://jobs.ashbyhq.com/sierra/eb8e8b58-394b-43f0-b9bd-4f1407d9aa17",h:"https://jobs.ashbyhq.com/sierra",w:"在招 · rolling(9/15 核)",x:"同项目另有美国 SF 版在招——SG 可作第二发,无明文上限(方向=agent,匹配度高)"},
+{n:"Stripe (Singapore)",t:"🌏 SG 备线",c:"asia",g:"sys",s:"open",r:"<b>Software Engineer, Intern(Saravel,SG)</b>(8130883,9/10 更新)",a:"https://stripe.com/jobs/search?gh_jid=8130883",h:"https://stripe.com/jobs/search",w:"在招 · rolling(9/15 核)",x:"JD 全文核过:无就读地限制/无毕业窗/无签证条款——SG 准证惯例可办,投时问 recruiter;美国版 SWE Intern 岗另在招,两地区互不影响"},
+{n:"TikTok/ByteDance 新加坡",t:"🌏 SG 备线",c:"asia",g:"ai",s:"blocked",r:"—(60+ 个 2027 Start 实习岗 7 月中旬起 rolling:LLM/Multimodal(TikTok Search)、AI Infra、Global E-Commerce Agent/ML 系列,BS/MS 逐岗可投)",a:"https://lifeattiktok.com/search/7667907101154429189",h:"https://lifeattiktok.com/earlycareers/apac",w:"SG 入职 1/5/8 月三档 · rolling 至次年 5 月",x:"🔴 集团额度原文 maximum two positions across Our Company and its affiliates globally——美/新/大陆共享 2 个名额;额度已用尽的申请人勿再加投;岗位与签证本身对额度干净的申请人可行:JD 无就读地/国籍限制,TEP 雇主担保(实习月薪 SGD4–5k>S$3,000 走月薪通道),penultimate 口径 Dec 2027 ✓"},
 {n:"NASA JPL",t:"T9 · 保底池",c:"consumer",g:"sys",s:"blocked",r:"—(Summer 周期页仍为 2026 版;资格原文 Open to U.S. citizens and lawful permanent residents)",a:"https://www.jpl.nasa.gov/edu/internships/apply/jpl-summer-internship-program/",h:"https://www.jpl.nasa.gov/edu/internships/",w:"—",x:"🔴 US citizen/LPR only——F-1 死路;高校强渠道但对国际生关闭,记录在案不再复查;NASA Pathways 同样要公民"},
 {n:"Trimble",t:"T9 · 保底池",c:"consumer",g:"sys",s:"blocked",r:"—(SWE Intern R57676,Westminster CO+6 地点,9/8 起)",a:"https://trimble.wd1.myworkdayjobs.com/TrimbleCareers/job/US---CO-Westminster/Software-Engineering-Intern_R57676",h:"https://trimble.wd1.myworkdayjobs.com/TrimbleCareers",w:"—",x:"🔴 原文:Visa sponsorship is not available——must already possess authorization without sponsorship now or in the future;9/9 曾跳过,现在有定论"},
 {n:"Honeywell",t:"T9 · 保底池",c:"consumer",g:"sys",s:"blocked",r:"—(2027 实习大批:SWE&CS 155558、AI/ML 155522、Embedded 155562 等)",a:"https://ibqbjb.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Honeywell/job/155558",h:"https://careers.honeywell.com",w:"—",x:"🔴 原文:unable to consider applicants who would require current or future sponsorship;另有十几个岗直接标 US Person Required——F-1 全线不可投"},
