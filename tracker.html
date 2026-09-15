@@ -61,6 +61,21 @@
   .dead li{margin:5px 0}
   tr.rowme td{background:#f0fdf4}
   tr.rowme:hover td{background:#dcfce7}
+.pill{display:inline-block;padding:1px 8px;border-radius:999px;font-size:11px;font-weight:700;margin-right:6px;vertical-align:1px;letter-spacing:.5px}
+.pill-applied{background:#16a34a;color:#fff}
+.pill-oa{background:#2563eb;color:#fff}
+.pill-interview{background:#7c3aed;color:#fff}
+.pill-offer{background:#d97706;color:#fff}
+.pill-reject{background:#dc2626;color:#fff;opacity:.85}
+tr.rowme td:first-child{box-shadow:inset 4px 0 0 #16a34a}
+tr.st-oa td:first-child{box-shadow:inset 4px 0 0 #2563eb}
+tr.st-reject td:first-child{box-shadow:inset 4px 0 0 #dc2626}
+tr.st-oa td{background:#eff6ff}
+tr.st-oa:hover td{background:#dbeafe}
+tr.st-reject td{background:#fef2f2}
+tr.st-reject:hover td{background:#fee2e2}
+.pinb{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 14px;cursor:pointer;font-size:13px;color:#334155;margin-right:6px}
+.pinb.on{background:var(--ink);color:#fff;border-color:var(--ink)}
   .gtag{font-size:10px;border-radius:4px;padding:1px 5px;font-weight:600;white-space:nowrap;margin-left:4px;vertical-align:1px}
   .gt-ai{background:#ede9fe;color:#6d28d9}
   .gt-sys{background:#f1f5f9;color:#475569}
@@ -130,6 +145,7 @@
     <button class="fbtn" data-f="g-sys">⚙️ 通用 SWE</button>
     <button class="fbtn" data-f="g-quant">📈 量化系统</button>
     <button class="fbtn on" id="hideq" title="已决定不投量化;点击临时显示/再隐藏">🙈 隐藏量化(已弃投)</button>
+    <button class="pinb" id="pinbtn" title="我投过的行浮到顶部:OA→在途→拒,组内按方向与层级排">📌 投递置顶</button>
     <button class="fbtn" data-f="me">✅ 我投过的</button>
     <input id="q" type="search" placeholder="搜索公司 / 岗位 / 城市…">
   </div>
@@ -365,8 +381,8 @@ function rowHtml(d,i){
   const st = ST[d.s];
   const dl = d.d ? ` <span class="dl">⏰ ${d.d}</span>` : "";
   const apply = d.a ? `<a class="btn" href="${d.a}" target="_blank">申请 →</a>` : `<span class="mut">—</span>`;
-  return `<tr data-s="${d.s}" data-c="${d.c}" class="${d.st?"rowme":""}">
-    <td class="co">${i+1}. ${d.st?PST[d.st]+" ":""}<a href="${d.h}" target="_blank">${d.n}</a> <span class="gtag gt-${d.g}">${GNAME[d.g]}</span>${d.g==="quant"?" <span class=\"gtag\" style=\"background:#f3f4f6;color:#9ca3af\">已弃投</span>":""}<span class="tier">${d.t}</span></td>
+  return `<tr data-s="${d.s}" data-c="${d.c}" class="${d.st?("rowme st-"+d.st):""}">
+    <td class="co">${i+1}. ${d.st?`<span class="pill pill-${d.st}">${PSTLBL[d.st]}</span>`:""}<a href="${d.h}" target="_blank">${d.n}</a> <span class="gtag gt-${d.g}">${GNAME[d.g]}</span>${d.g==="quant"?" <span class=\"gtag\" style=\"background:#f3f4f6;color:#9ca3af\">已弃投</span>":""}<span class="tier">${d.t}</span></td>
     <td><span class="chip ${st[0]}">${st[1]}</span></td>
     <td>${d.r}</td>
     <td>${apply}</td>
@@ -391,6 +407,14 @@ document.querySelectorAll(".fbtn").forEach(b=>b.addEventListener("click",()=>{
   b.classList.add("on"); cur=b.dataset.f; render();
 }));
 document.getElementById("q").addEventListener("input",render);
+const _pb = document.getElementById("pinbtn");
+const _syncPin = ()=> _pb.classList.toggle("on", localStorage.getItem("pinme2027")!=="0");
+_pb.addEventListener("click", ()=>{
+  const on = localStorage.getItem("pinme2027")!=="0";
+  localStorage.setItem("pinme2027", on?"0":"1");
+  sortD(); _syncPin(); render();
+});
+_syncPin();
 const hq = document.getElementById("hideq");
 const hqOn = ()=> localStorage.getItem("hideq2027")!=="0";
 if(!hqOn()) hq.classList.remove("on");
@@ -400,9 +424,19 @@ hq.addEventListener("click",()=>{
   render();
 });
 const PST={applied:"✅",oa:"📝",interview:"🗣",offer:"🎉",reject:"❌"};
+const PSTLBL={applied:"已申请",oa:"OA",interview:"面试",offer:"Offer",reject:"拒"};
 const GNAME={ai:"🤖 AI 强匹配",sys:"⚙️ 通用 SWE",quant:"📈 量化系统"};
 const GORD={ai:0,sys:1,quant:2};
-D.sort((a,b)=> (ORDER[a.s]-ORDER[b.s]) || (GORD[a.g]-GORD[b.g]) || a.t.localeCompare(b.t) || a.n.localeCompare(b.n));
+const STORD={oa:0,applied:1,interview:2,offer:3,reject:4};
+function sortD(){
+  const pin = localStorage.getItem("pinme2027")!=="0";
+  D.sort((a,b)=>{
+    if(pin && (!!a.st !== !!b.st)) return a.st?-1:1;
+    if(pin && a.st && b.st){ const d0=STORD[a.st]-STORD[b.st]; if(d0) return d0; }
+    return (ORDER[a.s]-ORDER[b.s]) || (GORD[a.g]-GORD[b.g]) || a.t.localeCompare(b.t) || a.n.localeCompare(b.n);
+  });
+}
+sortD();
 render();
 const cnt = k => D.filter(d=>d.s===k).length;
 document.getElementById("stats").innerHTML = `
